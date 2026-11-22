@@ -2,8 +2,11 @@
 
 Each release's notes come from its section here (`tools/release_notes.py`). The newest is first.
 
-## Unreleased
+## 1.0.0 — 2026-11-22
 
+- **Production ready:** 1.0 is the first release of SEQ-4 marked as ready for everyday use. It includes the fix below.
+- **Documentation:** the manual says what a black key does while stopped, and that its note ends on the channel it
+  started on.
 - **Fixed:** a black key's preview note could hang. In Multitrack (and Mono / Poly), with the sequencer stopped, a
   black key plays its row's note; pressing a second row before the first was let go sent the first note's off to the
   second track's channel and port, so the first note kept sounding on the first track's. Each preview's off now goes

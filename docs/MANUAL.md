@@ -1,6 +1,6 @@
 # SEQ-4 manual
 
-SEQ-4 is firmware for the M-VAVE FM-1 that makes it four MIDI sequencers. This manual covers version 0.1.
+SEQ-4 is firmware for the M-VAVE FM-1 that makes it four MIDI sequencers. This manual covers version 1.0.
 
 1. [What it is](#1-what-it-is)
 2. [Getting started in ten steps](#2-getting-started-in-ten-steps)
@@ -66,7 +66,7 @@ Hold any button for a second and a card says what it does.
 | **SELECT** | A menu's pages; the grid's rows (Multitrack: the track; Matriceal: the lane) | |
 | **Knobs 1–4** | Velocity, octave, gate, mod; a step held: its own; a menu: its values | GLO: tempo, swing, scale, root |
 | **White keys** | The page's sixteen steps | See [Steps on the grid](#5-steps-on-the-grid) |
-| **Black keys 1–8** | The rows (Multitrack: the eight tracks) | A step held: its note |
+| **Black keys 1–8** | The rows (Multitrack: the eight tracks); stopped, a held key plays the row's note, on that track's own channel and port | A step held: its note |
 | **Black keys 9, 10** | The page back, on | GLO: the sequence rotated; SEL: halved, doubled; EDIT (10): duplicated |
 | **Black key 11** | MUTE: the sequencer muted, or not | Held: white keys 1–4 mute the four sequencers, 5–12 the tracks |
 | **PLAY** | Play, stop | Held while playing: a fill. GLO: tap tempo. REC held: record from the start. HOME held: to the top |
