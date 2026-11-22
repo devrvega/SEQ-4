@@ -24,7 +24,7 @@
  *   expect WHAT VALUE            check state: exit 1 on mismatch; VALUE "<N" / ">N" is a bound
  *     WHAT: playing ext rec srec count view menu page sel trk mode pat next tempo swing scale root mute snap
  *           song_on cap dirty helpvis    the engine and the UI
- *           notes_on notes_off cc_out pc_out clocks_out starts_out stops_out midi_out drops   MIDI out, counted
+ *           notes_on notes_off hanging cc_out pc_out clocks_out starts_out stops_out midi_out drops   MIDI out, counted
  *           last_note last_vel last_ch last_port                                             ... the last note
  *           chnotesC    note-ons on channel C (1..16), any port
  *           velI degI gateI octI condI rtgI ofsI    step I of the sequencer on screen (Mono, Multitrack: its
@@ -106,6 +106,7 @@ void plat_play_red(int red) { (void)red; }
 static uint32_t min_q[MQ], mi_w, mi_r;
 static FILE *midi_log;
 static uint32_t midi_out_count, clock_out_count, notes_on, notes_off, cc_out, pc_out, starts_out, stops_out;
+static uint8_t snd[4][16][128];                 /* a note on its port and channel: its last message was a note-on */
 static int last_note = -1, last_vel, last_ch, last_port;
 static uint32_t ch_notes[16];
 static double grid_t0 = -1, grid_err_max;
@@ -142,6 +143,7 @@ void s4_out(uint32_t port, uint32_t st, uint32_t d1, uint32_t d2)
         stops_out++;
     if ((st & 0xF0u) == 0x90u && d2) {
         notes_on++;
+        snd[port & 3u][st & 15u][d1 & 127u] = 1;
         last_note = (int)d1;
         last_vel = (int)d2;
         last_ch = (int)(st & 15u);
@@ -158,8 +160,10 @@ void s4_out(uint32_t port, uint32_t st, uint32_t d1, uint32_t d2)
             }
             grid_n++;
         }
-    } else if ((st & 0xF0u) == 0x80u || (st & 0xF0u) == 0x90u)
+    } else if ((st & 0xF0u) == 0x80u || (st & 0xF0u) == 0x90u) {
         notes_off++;
+        snd[port & 3u][st & 15u][d1 & 127u] = 0;
+    }
     else if ((st & 0xF0u) == 0xB0u)
         cc_out++;
     else if ((st & 0xF0u) == 0xC0u)
@@ -603,6 +607,14 @@ static int expect(const char *what, const char *val)
         got = (int)notes_on;
     else if (IS("notes_off"))
         got = (int)notes_off;
+    else if (IS("hanging")) {                    /* notes on a port and channel whose last message was their note-on */
+        int p, c, n;
+        got = 0;
+        for (p = 0; p < 4; p++)
+            for (c = 0; c < 16; c++)
+                for (n = 0; n < 128; n++)
+                    got += snd[p][c][n];
+    }
     else if (IS("cc_out"))
         got = (int)cc_out;
     else if (IS("pc_out"))

@@ -577,18 +577,22 @@ static void grid_white_up(int w)
 static void preview(int r, int on)               /* a row's note heard (stopped) */
 {
     int s = sel();
-    static int8_t note = -1;
+    static int8_t note = -1, pseq, ptrk;           /* the note sounding, and where it went on (its off goes there) */
     if (note >= 0) {
-        s4_live(s, trk(), note, 0);
+        s4_live(pseq, ptrk, note, 0);
         note = -1;
     }
     if (!on || s4p.on)
         return;
     if (mode() == M_MULTI) {
         note = (int8_t)sq()->d.multi.t[r & 7].note;
-        s4_live(s, r & 7, note, 100);
+        pseq = (int8_t)s;
+        ptrk = (int8_t)(r & 7);
+        s4_live(s, ptrk, note, 100);
     } else if (mode() == M_MONO || mode() == M_POLY) {
         note = (int8_t)s4_note_of(s, row_deg(r), 0);
+        pseq = (int8_t)s;
+        ptrk = 0;
         s4_live(s, 0, note, 100);
     }
 }

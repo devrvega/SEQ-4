@@ -2,6 +2,13 @@
 
 Each release's notes come from its section here (`tools/release_notes.py`). The newest is first.
 
+## Unreleased
+
+- **Fixed:** a black key's preview note could hang. In Multitrack (and Mono / Poly), with the sequencer stopped, a
+  black key plays its row's note; pressing a second row before the first was let go sent the first note's off to the
+  second track's channel and port, so the first note kept sounding on the first track's. Each preview's off now goes
+  where its on went.
+
 ## 0.1.0 — 2026-10-16
 
 The first release.
