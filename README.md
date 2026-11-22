@@ -11,6 +11,9 @@ lit pads; the white keys are the steps, the black keys the rows. Patterns, songs
 and drum generators, a harmonizer, recording and capture are all there. The FM-1 makes no sound of its own
 apart from a metronome click: SEQ-4 is a controller.
 
+**Version 1.0** is the first release marked production ready. What changed in each release is in the
+[changelog](CHANGELOG.md).
+
 ![SEQ-4 on the FM-1's screen: the grid of a melody, chords, drums](docs/img/seq4.gif)
 
 | | |
