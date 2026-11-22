@@ -1,0 +1,70 @@
+# Multitrack, stopped: a black key previews its track's note on that track's own channel. Press a second row
+# before the first is let go, and the first note ends on its own channel (it used to be let go on the new
+# track's, and hang on the first's).
+wait 300
+press GLO
+tap SEQ
+release GLO
+spin K4 3
+tap HOME
+expect mode 3
+# tracks 1, 2 and 3 (b1, b2, b3) each moved off the default channel (the spins land them on 12, 14 and 16)
+tapkey b1
+press GLO
+tap SEQ
+tap SEQ
+release GLO
+expect menu 10
+spin K1 2
+tap HOME
+tapkey b2
+press GLO
+tap SEQ
+tap SEQ
+release GLO
+spin K1 4
+tap HOME
+tapkey b3
+press GLO
+tap SEQ
+tap SEQ
+release GLO
+spin K1 6
+tap HOME
+wait 300
+expect hanging 0
+expect playing 0
+# one row at a time
+key b1 down
+wait 100
+expect hanging 1
+key b1 up
+wait 100
+expect hanging 0
+# the next row pressed while the first is held: the first ends, the second sounds
+key b1 down
+wait 100
+key b2 down
+wait 100
+expect hanging 1
+key b1 up
+wait 50
+expect hanging 1
+key b2 up
+wait 100
+expect hanging 0
+# three rows rolled over each other
+key b1 down
+wait 60
+key b2 down
+wait 60
+key b3 down
+wait 60
+key b1 up
+key b2 up
+key b3 up
+wait 200
+expect hanging 0
+expect chnotes12 >0
+expect chnotes14 >0
+expect chnotes16 >0
